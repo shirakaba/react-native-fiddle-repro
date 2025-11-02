@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/minimal-repro",
+  "repository": "https://github.com/shirakaba/react-native-fiddle-repro",
   "keywords": [
     "Electron",
     "quick",
