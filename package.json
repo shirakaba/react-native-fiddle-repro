@@ -19,10 +19,17 @@
     "@react-native-community/cli-platform-ios": "18.0.0",
     "@react-native/babel-preset": "0.79.7",
     "@react-native/eslint-config": "0.79.7",
-    "@react-native/metro-config": "0.79.7",
+    "@react-native/metro-config": "0.83.0-rc.1",
     "@react-native/typescript-config": "0.79.7",
     "@types/react": "19.2.2",
     "expo-modules-autolinking": "3.0.19",
+    "metro": "0.83.3",
     "typescript": "5.0.4"
+  },
+  "overrides": {
+    "metro": "0.83.3",
+    "metro-config": "0.83.3",
+    "@react-native/community-cli-plugin": "0.83.0-rc.1",
+    "@react-native/metro-config": "0.83.0-rc.1"
   }
 }
