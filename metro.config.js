@@ -4,7 +4,6 @@ const { getDefaultConfig, mergeConfig } = require("@react-native/metro-config");
 
 const symlinkedNodeModules = path.resolve(__dirname, "node_modules");
 const realNodeModules = fs.realpathSync(symlinkedNodeModules);
-console.log("realNodeModules", realNodeModules);
 
 /**
  * Metro configuration
@@ -76,5 +75,4 @@ config.transformer.babelTransformerPath =
     realNodeModules
   );
 
-console.log("final config", config);
 module.exports = config;
