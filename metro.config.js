@@ -1,20 +1,27 @@
 const path = require("node:path");
 const fs = require("node:fs");
-const { makeMetroConfig } = require("@rnx-kit/metro-config");
+const { getDefaultConfig, mergeConfig } = require("@react-native/metro-config");
+const {
+  getDefaultConfig: getDefaultRnxKitConfig,
+} = require("@rnx-kit/metro-config/src/defaultConfig");
 
 const symlinkedNodeModules = path.resolve(__dirname, "node_modules");
 const realNodeModules = fs.realpathSync(symlinkedNodeModules);
 
-/**
- * We use @rnx-kit/metro-config because it rewrites imports from "react-native"
- * to "react-native-macos" as appropriate.
- *
- * @see https://github.com/microsoft/rnx-kit/tree/main/packages/metro-config
- * @see https://reactnative.dev/docs/metro
- */
-const config = makeMetroConfig({
-  projectRoot: __dirname,
+const [
+  {
+    resolver: { resolveRequest, platforms },
+    serializer: { getModulesRunBeforeMainModule },
+  },
+] = getDefaultRnxKitConfig(__dirname);
 
+/**
+ * Metro configuration
+ * https://reactnative.dev/docs/metro
+ *
+ * @type {import('@react-native/metro-config').MetroConfig}
+ */
+let config = {
   // While the original react-native-fiddle-repro template brings its own
   // node_modules, derived Fiddles do not, and so we symlink back to the
   // template's node_modules. Thus, below we adjust the Metro config to support
@@ -35,7 +42,10 @@ const config = makeMetroConfig({
     // unstable_enableSymlinks: true,
 
     nodeModulesPaths: [realNodeModules],
+    platforms,
+    resolveRequest,
   },
+  serializer: { getModulesRunBeforeMainModule },
   watchFolders: [realNodeModules],
   server: {
     // Rewrite all asset requests to resolve from the symlinked node_modules.
@@ -49,7 +59,6 @@ const config = makeMetroConfig({
             .relative(symlinkedNodeModules, realNodeModules)
             .replace(/^\.\./, "/assets")
         );
-
         const correctedPath = url.replace(realSegment, "/assets/node_modules");
 
         return correctedPath;
@@ -58,16 +67,9 @@ const config = makeMetroConfig({
       return url;
     },
   },
-});
+};
 
-for (const [nodeModule, nodeModulePath] of Object.entries(
-  config.resolver.extraNodeModules
-)) {
-  config.resolver.extraNodeModules[nodeModule] = nodeModulePath.replace(
-    symlinkedNodeModules,
-    realNodeModules
-  );
-}
+config = mergeConfig(getDefaultConfig(__dirname), config);
 
 // I'm overwriting these paths for consistency, though haven't checked how
 // necessary each of them are.
