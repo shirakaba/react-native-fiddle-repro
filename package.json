@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A minimal React Native application",
   "scripts": {
-    "start": "react-native start"
+    "start": "rnx-cli start --custom-log-reporter-path ./reporter.js"
   },
   "dependencies": {
     "react": "19.0.0",
