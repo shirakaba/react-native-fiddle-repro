@@ -21,6 +21,8 @@
     "@react-native/eslint-config": "0.79.7",
     "@react-native/metro-config": "0.83.0-rc.1",
     "@react-native/typescript-config": "0.79.7",
+    "@rnx-kit/cli": "0.18.14",
+    "@rnx-kit/metro-config": "2.2.0",
     "@types/react": "19.2.2",
     "expo-modules-autolinking": "3.0.19",
     "metro": "0.83.3",
